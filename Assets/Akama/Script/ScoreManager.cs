@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// GameManagerにアタッチしてください。
+/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     /// <summary>

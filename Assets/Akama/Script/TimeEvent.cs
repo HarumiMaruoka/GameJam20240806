@@ -1,5 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+
+/// <summary>
+/// GameManagerにアタッチしてください。
+/// </summary>
 public class TimeEvent : MonoBehaviour
 {
     // タイマー

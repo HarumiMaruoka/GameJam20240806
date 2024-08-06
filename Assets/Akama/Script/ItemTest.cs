@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// テスト用のスクリプトです。
+/// </summary>
 public class ItemTest : MonoBehaviour
 {
     [SerializeField]

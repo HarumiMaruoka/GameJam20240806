@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// アイテムにしたいプレハブにアタッチしてください。
+/// </summary>
 public class ItemGoal : MonoBehaviour
 {
     /// <summary>

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// GameManagerにアタッチしてください。
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     /// <summary>

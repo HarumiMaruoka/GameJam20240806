@@ -1,6 +1,7 @@
 using UnityEngine;
 
 /// <summary>
+/// ゴールにしたいプレハブにアタッチしてください。
 /// プレイヤーのタグに対する接触を判定する。
 /// </summary>
 public class ItemTriggerCheck : MonoBehaviour
