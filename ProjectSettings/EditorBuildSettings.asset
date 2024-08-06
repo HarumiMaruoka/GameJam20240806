@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Kasahara/Result.unity
+    guid: ecdd04fe50bc6bb4680dd049e6ff187c
   m_configObjects: {}
