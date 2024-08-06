@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class LoadScene : MonoBehaviour
 {
-    [Header("Panelをいれてね")]
-    [Header("Panelの名前はFadePanelで")]
+    [Header("Panelをいれて名前はFadePanelでImageのRaycastTargetをオフにしてください")]
     /// <summary>フェード用 Image</summary>
     [SerializeField] Image _fadeImage = default;
     [Header("フェードアウトにかかる時間")]
@@ -66,7 +65,6 @@ public class LoadScene : MonoBehaviour
             {
                 if (_fade == InOut.In)
                 {
-                    GameObject.Find("FadePanel").SetActive(false);
                     _fade = InOut.Out;
                     _timer = 0;
                 }
