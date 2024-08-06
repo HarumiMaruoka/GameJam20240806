@@ -26,6 +26,7 @@ public class ScoreManager : MonoBehaviour
         //_scoreがGameManagerの持つ_gameManagerScoreと違う場合、_scoreの値を同じにし、テキストの表示も変える。
         if (_score != GameManager._scoreInstance._gameManagerScore)
         {
+            GetComponent<AudioSource>().Play();
             _scoreText.text = "スコア: " + GameManager._scoreInstance._gameManagerScore.ToString();
             _score = GameManager._scoreInstance._gameManagerScore;
         }
