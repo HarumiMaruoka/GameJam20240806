@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class LoadScene : MonoBehaviour
 {
+    [Header("Panelをいれてね")]
+    [Header("Panelの名前はFadePanelで")]
     /// <summary>フェード用 Image</summary>
     [SerializeField] Image _fadeImage = default;
     [Header("フェードアウトにかかる時間")]
@@ -16,10 +20,12 @@ public class LoadScene : MonoBehaviour
     float _timer = 0;
     Coroutine _coroutine;
     private string _sceneName;
+
+    InOut _fade = InOut.In;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Fade();
     }
 
     // Update is called once per frame
@@ -31,14 +37,14 @@ public class LoadScene : MonoBehaviour
     {
         _sceneName = sceneName;
         Debug.Log("Clicked");
-        FadeIn();
+        Fade();
         Invoke("Load2", _fadeTime+_waitTime);
     }
     private void Load2()
     {
         SceneManager.LoadScene(_sceneName);
     }
-    public void FadeIn()
+    public void Fade()
     {
         StartCoroutine(FadeRoutine());
     }
@@ -49,17 +55,32 @@ public class LoadScene : MonoBehaviour
         {
             _timer += Time.deltaTime;
             Color c = _fadeImage.color; // 現在の Image の色を取得する
-            c.a = _timer / _fadeTime;   // 色のアルファを 1 に近づけていく
+            if (_fade == InOut.Out)
+                c.a = _timer / _fadeTime;   // 色のアルファを 1 に近づけていく
+            else
+                c.a = 1 - _timer / _fadeTime;
             // TODO: 色を Image にセットする
             _fadeImage.color = c;
             // _fadeTime が経過したら処理は終了する
             if (_timer > _fadeTime)
             {
+                if (_fade == InOut.In)
+                {
+                    GameObject.Find("FadePanel").SetActive(false);
+                    _fade = InOut.Out;
+                    _timer = 0;
+                }
+                    
                 Debug.Log("コルーチンによる Fade 完了");
                 yield break;
             }
 
             yield return new WaitForEndOfFrame();
         }
+    }
+    private enum InOut
+    {
+        In,
+        Out,
     }
 }
