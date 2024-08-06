@@ -102,15 +102,26 @@ public class PlayerMove : MonoBehaviour
 
         _currentSpeed.y = Mathf.Clamp(_currentSpeed.y, -_maxSpeed, _maxSpeed);
 
+        // 速度の大きさを制限
+        _currentSpeed = Vector3.ClampMagnitude(_currentSpeed, _maxSpeed);
+
         _rb.velocity = _mainCamera.transform.TransformDirection(_currentSpeed);
         var velo = _rb.velocity;
         velo.y = _currentSpeed.y;
         _rb.velocity = velo;
 
         // xz 平面の移動方向を向く
-        if (_currentSpeed.magnitude > 0.5f)
+        if (new Vector3(_currentSpeed.x, 0, _currentSpeed.z).magnitude > 0.5f)
         {
-            _targetRotation = Quaternion.LookRotation(new Vector3(_currentSpeed.x, 0, _currentSpeed.z));
+            // カメラの前方向を基準にして移動方向を計算
+            Vector3 cameraForward = _mainCamera.transform.forward;
+            cameraForward.y = 0; // y成分を無視してxz平面に投影
+            cameraForward.Normalize();
+
+            Vector3 moveDirection = new Vector3(_currentSpeed.x, 0, _currentSpeed.z);
+            moveDirection = Quaternion.LookRotation(cameraForward) * moveDirection;
+
+            _targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _rotationSpeed * Time.deltaTime);
         }
     }
