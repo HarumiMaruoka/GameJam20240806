@@ -16,19 +16,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Vector3 _currentSpeed;
     [SerializeField]
-    private float _maxRotationSpeed;
+    private float _rotationSpeed;
 
-    [SerializeField]
-    private float _rotationSpeed = 1f;
-
-    private Vector2 _lastMousePos;
+    private Quaternion _targetRotation;
 
     private Rigidbody _rb;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _lastMousePos = Input.mousePosition;
+        _targetRotation = transform.rotation;
     }
 
     private void Update()
@@ -57,6 +54,29 @@ public class PlayerMove : MonoBehaviour
         }
         _currentSpeed.z = Mathf.Clamp(_currentSpeed.z, -_maxSpeed, _maxSpeed);
 
+        // AD キーで左右移動
+        if (Input.GetKey(KeyCode.D))
+        {
+            _currentSpeed.x += _acceleration * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            _currentSpeed.x -= _acceleration * Time.deltaTime;
+        }
+        else
+        {
+            if (_currentSpeed.x > 0)
+            {
+                _currentSpeed.x -= _deceleration * Time.deltaTime;
+                if (_currentSpeed.x < 0) _currentSpeed.x = 0;
+            }
+            else if (_currentSpeed.x < 0)
+            {
+                _currentSpeed.x += _deceleration * Time.deltaTime;
+                if (_currentSpeed.x > 0) _currentSpeed.x = 0;
+            }
+        }
+
         // マウス左右ボタンで上下移動
         if (Input.GetMouseButton(0))
         {
@@ -80,15 +100,18 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        // マウスの移動量で回転
-        float mx = Input.GetAxis("Mouse X");//カーソルの横の移動量を取得
-        if (Mathf.Abs(mx) > 0.001f) // X方向に一定量移動していれば横回転
-        {
-            transform.RotateAround(transform.position, Vector3.up, mx * _rotationSpeed); // 回転軸はplayerオブジェクトのワールド座標Y軸
-        }
-
         _currentSpeed.y = Mathf.Clamp(_currentSpeed.y, -_maxSpeed, _maxSpeed);
 
         _rb.velocity = _mainCamera.transform.TransformDirection(_currentSpeed);
+        var velo = _rb.velocity;
+        velo.y = _currentSpeed.y;
+        _rb.velocity = velo;
+
+        // xz 平面の移動方向を向く
+        if (_currentSpeed.magnitude > 0.5f)
+        {
+            _targetRotation = Quaternion.LookRotation(new Vector3(_currentSpeed.x, 0, _currentSpeed.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _rotationSpeed * Time.deltaTime);
+        }
     }
 }
