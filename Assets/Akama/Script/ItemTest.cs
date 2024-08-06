@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour
+public class ItemTest : MonoBehaviour
 {
     [SerializeField]
     public int _plusScore;

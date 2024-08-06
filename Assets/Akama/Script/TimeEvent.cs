@@ -7,7 +7,7 @@ public class TimeEvent : MonoBehaviour
     float _timer = 5f;
 
     /// <summary>
-    /// イベントが増える場合この下に追加していく
+    /// イベントが増える場合この下に追加していく。
     /// </summary>
     [SerializeField]
     float _event1 = 0f;
@@ -19,7 +19,7 @@ public class TimeEvent : MonoBehaviour
     float _endEvent = -1f;
 
     /// <summary>
-    /// タイマーとして表示したいテキスト
+    /// タイマーとして表示したいテキスト。
     /// </summary>
     [SerializeField]
     Text _timerText;
@@ -33,7 +33,7 @@ public class TimeEvent : MonoBehaviour
         // 小数点以下の数字を表示したい場合n以降の数字を変更する。
         _timerText.text = _timer.ToString("n2");
 
-        // タイマーが特定の変数を下回ったら実行。タイマーが0を下回ることはないので
+        // タイマーが特定の変数を下回ったら実行。タイマーが0を下回ることがある場合はInspecter上の_endEventの値を小さくする。
         if (_timer <= _event1)
         {
             Debug.Log("イベント1を実行");
