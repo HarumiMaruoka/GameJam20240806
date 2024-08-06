@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// 全シーンで呼び出せる変数_scoreInstanceを定義。
+    /// </summary>
     public static GameManager _scoreInstance = null;
     public int _gameManagerScore = 0;
 
