@@ -7,16 +7,50 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Camera _mainCamera;
 
+
     [SerializeField]
-    private float _maxSpeed;
+    private float _acceleration = 10f;
     [SerializeField]
-    private float _acceleration;
-    [SerializeField]
-    private float _deceleration;
+    private float _deceleration = 25f;
     [SerializeField]
     private Vector3 _currentSpeed;
     [SerializeField]
-    private float _rotationSpeed;
+    private float _rotationSpeed = 3f;
+
+    [SerializeField]
+    private ItemCatcher _itemCatcher;
+
+    [SerializeField]
+    private float _speedWithoutLoad = 15f; // 荷物を持っていない時の速度
+    [SerializeField]
+    private float _speedWithSmallLoad = 14f; // 小さい荷物を持っている時の速度
+    [SerializeField]
+    private float _speedWithMediumLoad = 12f; // 中くらいの荷物を持っている時の速度
+    [SerializeField]
+    private float _speedWithLargeLoad = 10f; // 大きい荷物を持っている時の速度
+    [SerializeField]
+    private float _speedWithExtraLargeLoad = 8f; // 特大の荷物を持っている時の速度
+
+    public float MaxSpeed
+    {
+        get
+        {
+            if (!_itemCatcher.Item) return _speedWithoutLoad;
+            switch (_itemCatcher.Item.Size)
+            {
+                case ItemSize.Small:
+                    return _speedWithSmallLoad;
+                case ItemSize.Medium:
+                    return _speedWithMediumLoad;
+                case ItemSize.Large:
+                    return _speedWithLargeLoad;
+                case ItemSize.ExtraLarge:
+                    return _speedWithExtraLargeLoad;
+                default:
+                    return _speedWithoutLoad;
+            }
+        }
+    }
 
     private Quaternion _targetRotation;
 
@@ -52,7 +86,7 @@ public class PlayerMove : MonoBehaviour
                 if (_currentSpeed.z > 0) _currentSpeed.z = 0;
             }
         }
-        _currentSpeed.z = Mathf.Clamp(_currentSpeed.z, -_maxSpeed, _maxSpeed);
+        _currentSpeed.z = Mathf.Clamp(_currentSpeed.z, -MaxSpeed, MaxSpeed);
 
         // AD キーで左右移動
         if (Input.GetKey(KeyCode.D))
@@ -100,10 +134,10 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        _currentSpeed.y = Mathf.Clamp(_currentSpeed.y, -_maxSpeed, _maxSpeed);
+        _currentSpeed.y = Mathf.Clamp(_currentSpeed.y, -MaxSpeed, MaxSpeed);
 
         // 速度の大きさを制限
-        _currentSpeed = Vector3.ClampMagnitude(_currentSpeed, _maxSpeed);
+        _currentSpeed = Vector3.ClampMagnitude(_currentSpeed, MaxSpeed);
 
         _rb.velocity = _mainCamera.transform.TransformDirection(_currentSpeed);
         var velo = _rb.velocity;

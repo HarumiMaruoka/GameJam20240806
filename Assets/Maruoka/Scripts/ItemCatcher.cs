@@ -5,8 +5,12 @@ public class ItemCatcher : MonoBehaviour
 {
     [SerializeField]
     private Transform _itemPosition;
+    [SerializeField]
+    private GoalSpawner _goalSpawner;
 
     private Item _item;
+
+    public Item Item => _item;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,7 +19,9 @@ public class ItemCatcher : MonoBehaviour
         if (other.TryGetComponent(out Item item))
         {
             _item = item;
-            Debug.Log($"ItemCatcher が Item をキャッチした。Item のサイズは {item.Size} です。");
+            _goalSpawner.SpawnGoal();
+            item.transform.rotation = Quaternion.identity;
+            Destroy(item.Rigidbody);
             item.transform.position = _itemPosition.position;
             item.transform.SetParent(_itemPosition);
         }
