@@ -10,10 +10,10 @@ public class LoadScene : MonoBehaviour
     [Header("Panelをいれて名前はFadePanelでImageのRaycastTargetをオフにしてください")]
     /// <summary>フェード用 Image</summary>
     [SerializeField] Image _fadeImage = default;
-    [Header("フェードアウトにかかる時間")]
+    [Header("フェードにかかる時間")]
     /// <summary>フェードアウト完了までにかかる時間（秒）/summary>
     [SerializeField] float _fadeTime = 1;
-    [Header("フェードアウト完了後に待つ時間")]
+    [Header("フェード完了後に待つ時間")]
     /// <summary>フェードアウト完了後に待つ時間（秒）/summary>
     [SerializeField] float _waitTime = 1;
     float _timer = 0;
