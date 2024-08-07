@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class WindArea : MonoBehaviour
 {
-    [SerializeField] Vector3 _windDir = Vector3.zero;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float _windPower;
+    private Vector3 _windDir = Vector3.zero;
+    Transform _transform;
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _windDir = transform.forward;
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
             Rigidbody rb = other.GetComponent<Rigidbody>();
-            rb.AddForce(_windDir, ForceMode.Force);
-            
-        }
+        if(rb != null) 
+            rb.AddForce(_windDir * _windPower, ForceMode.Force);
     }
 }
