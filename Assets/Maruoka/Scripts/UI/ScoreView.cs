@@ -14,8 +14,13 @@ public class ScoreView : MonoBehaviour
     private void Start()
     {
         _currentScore = ScoreManager.Instance.Score;
-        OnScoreChanged(_currentScore);
+        _view.text = $"Score: {_currentScore.ToString("00000")}";
         ScoreManager.Instance.OnScoreChanged += OnScoreChanged;
+    }
+
+    private void OnDestroy()
+    {
+        ScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
     }
 
     private void OnScoreChanged(int newScore)

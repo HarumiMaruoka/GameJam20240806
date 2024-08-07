@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResultView : MonoBehaviour
 {
     [SerializeField]
     private RectTransform _rectTransform;
+    [SerializeField]
+    private Text _scoreText;
 
     public void Show(float duration)
     {
+        _scoreText.text = $"{ScoreManager.Instance.Score.ToString("00000")}";
         StartCoroutine(ShowAsync(duration));
     }
 

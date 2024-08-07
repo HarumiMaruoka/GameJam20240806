@@ -14,7 +14,7 @@ public class DroneAnimation : MonoBehaviour
         foreach (var rotor in _droneRotors)
         {
             var rot = rotor.localEulerAngles;
-            rot.z += _rotorSpeed * Time.deltaTime;
+            rot.y += _rotorSpeed * Time.deltaTime;
             rotor.localEulerAngles = rot;
         }
     }

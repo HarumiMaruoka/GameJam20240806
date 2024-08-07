@@ -17,8 +17,15 @@ public class TimeManager : MonoBehaviour
     private PlayerMove _playerMove;
     [SerializeField]
     private CursorLock _cursorLock;
+    [SerializeField]
+    private BGMPlayer _resultBgmPlayer;
 
     private TimeSpan _timer;
+
+    private void Awake()
+    {
+        ScoreManager.Instance.Score = 0;
+    }
 
     private void Start()
     {
@@ -41,6 +48,7 @@ public class TimeManager : MonoBehaviour
             _timeupView.Show();
             _playerMove.Stop();
             _cursorLock.Unlock();
+            _resultBgmPlayer.PlayBGM();
         }
     }
 }

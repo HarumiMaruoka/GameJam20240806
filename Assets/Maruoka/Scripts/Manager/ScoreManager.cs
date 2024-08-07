@@ -23,16 +23,20 @@ public class ScoreManager
         switch (itemSize)
         {
             case ItemSize.Small:
-                Score += 100;
+                SEPlayer.PlaySE("good");
+                Score += 1000;
                 break;
             case ItemSize.Medium:
-                Score += 200;
+                SEPlayer.PlaySE("goal");
+                Score += 2000;
                 break;
             case ItemSize.Large:
-                Score += 300;
+                SEPlayer.PlaySE("marvelous");
+                Score += 3000;
                 break;
             case ItemSize.ExtraLarge:
-                Score += 400;
+                SEPlayer.PlaySE("excellent");
+                Score += 4000;
                 break;
             default:
                 Debug.LogError("Invalid item size");

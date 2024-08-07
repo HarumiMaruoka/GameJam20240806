@@ -10,11 +10,14 @@ public class StartCountdown : MonoBehaviour
     [SerializeField] private float _countdownTime = 3f;
     [SerializeField] private float _fadeDuration = 1.0f;
     [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
+    [SerializeField] private BGMPlayer _bgmPlayer;
 
     public float CurrentTime { get; private set; }
 
     private void Awake()
     {
+        _bgmPlayer.PlayBGM();
+
         _cinemachineVirtualCamera.enabled = false;
         GameManager.Instance.IsGameStarted = false;
 
