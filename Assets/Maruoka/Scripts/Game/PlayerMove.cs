@@ -7,7 +7,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Camera _mainCamera;
 
-
     [SerializeField]
     private float _acceleration = 10f;
     [SerializeField]
@@ -64,12 +63,14 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGameStarted) return;
+
         // WS キーで前後移動
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetAxisRaw("Vertical2") > 0.1f)
         {
             _currentSpeed.z += _acceleration * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S) || Input.GetAxisRaw("Vertical2") < -0.1f)
         {
             _currentSpeed.z -= _acceleration * Time.deltaTime;
         }
@@ -89,11 +90,11 @@ public class PlayerMove : MonoBehaviour
         _currentSpeed.z = Mathf.Clamp(_currentSpeed.z, -MaxSpeed, MaxSpeed);
 
         // AD キーで左右移動
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetAxisRaw("Horizontal2") > 0.1f)
         {
             _currentSpeed.x += _acceleration * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) || Input.GetAxisRaw("Horizontal2") < -0.1f)
         {
             _currentSpeed.x -= _acceleration * Time.deltaTime;
         }
@@ -112,11 +113,11 @@ public class PlayerMove : MonoBehaviour
         }
 
         // マウス左右ボタンで上下移動
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || Input.GetAxisRaw("R Trigger") > 0.1f)
         {
             _currentSpeed.y += _acceleration * Time.deltaTime;
         }
-        else if (Input.GetMouseButton(1))
+        else if (Input.GetMouseButton(1) || Input.GetAxisRaw("L Trigger") > 0.1f)
         {
             _currentSpeed.y -= _acceleration * Time.deltaTime;
         }
@@ -158,5 +159,12 @@ public class PlayerMove : MonoBehaviour
             _targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _rotationSpeed * Time.deltaTime);
         }
+    }
+
+    public void Stop()
+    {
+        _currentSpeed = Vector3.zero;
+        _rb.velocity = Vector3.zero;
+        _rb.isKinematic = true;
     }
 }

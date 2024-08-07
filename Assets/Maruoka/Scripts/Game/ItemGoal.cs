@@ -43,7 +43,7 @@ namespace Maruoka
 
             if (other.TryGetComponent(out Item item))
             {
-                Maruoka.ScoreManager.Instance.AddScore(item.Size);
+                ScoreManager.Instance.AddScore(item.Size);
                 item.Dead();
                 _goaled = true;
             }
